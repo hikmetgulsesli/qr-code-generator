@@ -108,3 +108,32 @@
 - localStorage operations should be wrapped in try-catch and fail silently.
 - Component pattern: Separate .tsx and .css files, use CSS custom properties from tokens.css
 - Color picker pattern: Native input hidden, custom trigger button, preset grid with checkmark for selected
+
+## US-006: QR Code Display Component
+- Status: DONE
+- Created: src/components/QRDisplay.tsx
+  - QRDisplay component with dataUrl, isLoading, error props
+  - Displays QR code image when dataUrl provided
+  - Shows loading spinner with animated icon during generation
+  - Shows placeholder message with QR icon when empty
+  - Error state displays friendly message with alert icon
+  - State priority: loading > error > success > empty
+  - Custom className support
+  - Custom alt text support for accessibility
+- Created: src/components/QRDisplay.css
+  - Styled with CSS custom properties from tokens.css
+  - Loading state with animated spinner
+  - Error state with red border and danger background tint
+  - Empty state with muted text
+  - Success state with image container
+  - Responsive max-width and aspect-ratio for consistent sizing
+- Created: src/components/QRDisplay.test.tsx (29 tests)
+  - Empty state tests: placeholder message, icon, CSS classes
+  - Loading state tests: spinner, text, aria attributes, priority over other states
+  - Error state tests: error title/message, icon, aria-live assertive, priority
+  - Success state tests: image rendering, alt text, CSS classes
+  - className prop tests: custom class application in all states
+  - State priority tests: loading > error > success > empty
+- Build: PASS
+- Typecheck: PASS
+- Tests: 136/136 passing

@@ -1,5 +1,7 @@
 import { type QRCodeOptions } from '../types';
 
+export { downloadQRCode, dataUrlToBlob } from './downloadQR';
+
 /**
  * Default QR code generation options
  */
