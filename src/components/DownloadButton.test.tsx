@@ -187,10 +187,18 @@ describe('DownloadButton', () => {
       const onClick = vi.fn();
       render(<DownloadButton onClick={onClick} />);
       
-      const event = fireEvent.keyDown(screen.getByRole('button'), { key: 'Enter' });
+      const button = screen.getByRole('button');
+      const keyDownEvent = new KeyboardEvent('keydown', { 
+        key: 'Enter', 
+        bubbles: true,
+        cancelable: true 
+      });
+      
+      const preventDefaultSpy = vi.spyOn(keyDownEvent, 'preventDefault');
+      button.dispatchEvent(keyDownEvent);
       
       // The event handler calls preventDefault
-      expect(event).toBe(true);
+      expect(preventDefaultSpy).toHaveBeenCalled();
     });
   });
 
