@@ -5,7 +5,10 @@ import { ColorPicker } from './components/ColorPicker';
 import { SizeControl } from './components/SizeControl';
 import { QRDisplay } from './components/QRDisplay';
 import { DownloadButton } from './components/DownloadButton';
+import { HistoryList } from './components/HistoryList';
 import { useQRSettings } from './hooks/useQRSettings';
+import { useQRHistory } from './hooks/useQRHistory';
+import type { QRHistoryItem } from './hooks/useQRHistory';
 import { generateQRCode, QRGenerationError } from './utils/qrGenerator';
 import { downloadQRCode } from './utils/downloadQR';
 import './styles/tokens.css';
@@ -35,6 +38,9 @@ function App(): React.ReactElement {
     setQrSize,
     setMargin,
   } = useQRSettings();
+
+  // History hook for storing previously generated QR codes
+  const { history, addToHistory, clearHistory } = useQRHistory();
 
   // Generate QR code when text or settings change
   useEffect(() => {
@@ -80,6 +86,40 @@ function App(): React.ReactElement {
       clearTimeout(timeoutId);
     };
   }, [text, foregroundColor, backgroundColor, qrSize, margin]);
+
+  // Track the last text that was added to history to avoid duplicates
+  const lastHistoryTextRef = React.useRef<string>('');
+
+  // Add to history when QR code is successfully generated
+  useEffect(() => {
+    if (dataUrl && text.trim() && !isLoading && !error) {
+      const trimmedText = text.trim();
+      // Avoid adding duplicate consecutive entries
+      if (lastHistoryTextRef.current !== trimmedText) {
+        lastHistoryTextRef.current = trimmedText;
+        addToHistory({
+          text: trimmedText,
+          foregroundColor,
+          backgroundColor,
+          size: qrSize,
+          margin,
+        });
+      }
+    }
+  }, [dataUrl, text, isLoading, error, foregroundColor, backgroundColor, qrSize, margin, addToHistory]);
+
+  // Handle restoring a history item
+  const handleRestore = useCallback(
+    (item: QRHistoryItem) => {
+      setText(item.text);
+      setForegroundColor(item.foregroundColor);
+      setBackgroundColor(item.backgroundColor);
+      setQrSize(item.size);
+      setMargin(item.margin);
+      lastHistoryTextRef.current = item.text;
+    },
+    [setForegroundColor, setBackgroundColor, setQrSize, setMargin]
+  );
 
   // Handle download button click
   const handleDownload = useCallback(() => {
@@ -130,6 +170,17 @@ function App(): React.ReactElement {
           margin={margin}
           onSizeChange={setQrSize}
           onMarginChange={setMargin}
+        />
+      </section>
+
+      <section className="app-section" aria-labelledby="history-heading">
+        <h2 id="history-heading" className="app-section-title">
+          History
+        </h2>
+        <HistoryList
+          items={history}
+          onRestore={handleRestore}
+          onClear={clearHistory}
         />
       </section>
     </>
