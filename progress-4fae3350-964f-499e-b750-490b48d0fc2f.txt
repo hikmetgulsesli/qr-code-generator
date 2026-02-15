@@ -1,0 +1,29 @@
+# Progress Log
+
+## US-001: Project Setup with Design Tokens
+- Status: DONE (prior session)
+
+## US-002: QR Code Generation Core Logic
+- Status: DONE
+- Created: src/utils/qrGenerator.ts
+  - generateQRCode(options: QRCodeOptions) -> Promise<QRCodeResult>
+  - QRGenerationError custom error class with originalCause field
+  - Input validation: empty text, whitespace-only, exceeds 4096 chars
+  - Wraps qrcode library errors into QRGenerationError
+- Created: src/utils/qrGenerator.test.ts (16 tests)
+  - Valid input: data URL generation, custom size, margin, colors, all EC levels, long text
+  - Invalid input: empty string, whitespace, exceeding length
+  - Library error wrapping: text exceeding QR capacity
+  - QRGenerationError class behavior tests
+- Build: PASS
+- Typecheck: PASS
+- Tests: 34/34 passing
+
+## Codebase Patterns
+- tsconfig uses erasableSyntaxOnly: true — cannot use `public readonly` in constructor params. Use class fields instead.
+- Types are in src/types/index.ts. Utilities in src/utils/index.ts.
+- Design tokens in src/styles/tokens.css (CSS custom properties).
+- Test files co-located with source: src/utils/qrGenerator.test.ts
+- vitest with happy-dom environment, globals: true
+- qrcode library: use QRCode.toDataURL(text, options) for browser data URLs. Width, margin, color.dark, color.light are the key options.
+- Custom error classes: extend Error, set this.name manually, use a separate field for cause (not constructor param shorthand).
