@@ -1,0 +1,116 @@
+.color-picker-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  width: 100%;
+}
+
+.color-picker-label {
+  font-family: var(--font-display);
+  font-size: var(--text-sm);
+  font-weight: var(--font-medium);
+  color: var(--color-text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.color-picker-controls {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.color-picker-swatch {
+  position: relative;
+  width: 48px;
+  height: 48px;
+  padding: 0;
+  background: none;
+  border: 2px solid var(--color-border-default);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  overflow: hidden;
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.color-picker-swatch:hover:not(:disabled) {
+  border-color: var(--color-border-accent);
+}
+
+.color-picker-swatch.focused {
+  border-color: var(--color-accent-primary);
+  box-shadow: 0 0 0 2px rgba(88, 166, 255, 0.2);
+}
+
+.color-picker-swatch.disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.color-picker-swatch-inner {
+  position: absolute;
+  inset: 4px;
+  border-radius: var(--radius-sm);
+  background-color: inherit;
+}
+
+.color-picker-native {
+  position: absolute;
+  width: 0;
+  height: 0;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.color-picker-value {
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  color: var(--color-text-primary);
+  user-select: all;
+}
+
+.color-picker-presets {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.color-picker-preset {
+  position: relative;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border: 2px solid var(--color-border-default);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: border-color var(--transition-fast), transform var(--transition-fast);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.color-picker-preset:hover:not(:disabled) {
+  border-color: var(--color-border-accent);
+  transform: scale(1.05);
+}
+
+.color-picker-preset.selected {
+  border-color: var(--color-accent-primary);
+  box-shadow: 0 0 0 1px var(--color-accent-primary);
+}
+
+.color-picker-preset.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.color-picker-preset-check {
+  color: #ffffff;
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.5));
+}
+
+/* Focus visible for preset buttons */
+.color-picker-preset:focus-visible {
+  outline: 2px solid var(--color-accent-primary);
+  outline-offset: 2px;
+}

@@ -40,6 +40,32 @@
 - Typecheck: PASS
 - Tests: 48/48 passing
 
+## US-004: Text Input Component
+- Status: DONE
+- Created: src/components/TextInput.tsx
+  - TextInput component with value, onChange, maxLength props
+  - Large textarea (6 rows) for multi-line support
+  - Character counter with current/max display
+  - Placeholder: "Enter URL or text to encode..."
+  - Clear button (X icon from Lucide) appears when text is present
+  - Disabled state support
+  - Uses design tokens for colors and typography
+- Created: src/components/TextInput.css
+  - Styled with CSS custom properties from tokens.css
+  - Dark theme styling matching project design
+  - Hover and focus-visible states
+  - Character counter with near-limit (warning) and at-limit (danger) states
+- Created: src/components/TextInput.test.tsx (25 tests)
+  - Render tests: default placeholder, custom placeholder, value, aria attributes, className
+  - Change event tests: onChange called, maxLength respected
+  - Clear button tests: visibility, click behavior, keyboard accessibility
+  - Character counter tests: display, near-limit class, at-limit class, aria-live
+  - Disabled state tests: textarea disabled, onChange not called
+  - Focus and accessibility tests
+- Build: PASS
+- Typecheck: PASS
+- Tests: 73/73 passing
+
 ## Codebase Patterns
 - tsconfig uses erasableSyntaxOnly: true — cannot use `public readonly` in constructor params. Use class fields instead.
 - Types are in src/types/index.ts. Utilities in src/utils/index.ts.
