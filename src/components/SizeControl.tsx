@@ -2,15 +2,35 @@ import React, { useCallback } from 'react';
 import './SizeControl.css';
 
 /**
+ * Configuration for size slider
+ */
+export const SIZE_CONFIG = {
+  min: 128,
+  max: 512,
+  step: 64,
+  default: 256,
+} as const;
+
+/**
+ * Configuration for margin slider
+ */
+export const MARGIN_CONFIG = {
+  min: 0,
+  max: 4,
+  step: 1,
+  default: 2,
+} as const;
+
+/**
  * Props for the SizeControl component
  */
 export interface SizeControlProps {
-  /** Current size value in pixels */
+  /** Current QR code size in pixels */
   size: number;
-  /** Current margin value */
-  margin: number;
   /** Callback when size changes */
   onSizeChange: (size: number) => void;
+  /** Current margin value */
+  margin: number;
   /** Callback when margin changes */
   onMarginChange: (margin: number) => void;
   /** Additional CSS class */
@@ -20,30 +40,13 @@ export interface SizeControlProps {
 }
 
 /**
- * Size and margin configuration constants
- */
-const SIZE_CONFIG = {
-  min: 128,
-  max: 512,
-  step: 64,
-  default: 256,
-} as const;
-
-const MARGIN_CONFIG = {
-  min: 0,
-  max: 4,
-  step: 1,
-  default: 2,
-} as const;
-
-/**
- * SizeControl component for customizing QR code dimensions.
- * Features range sliders for size and margin controls.
+ * Size control component for customizing QR code dimensions.
+ * Features range sliders for size and margin with real-time value display.
  */
 export function SizeControl({
   size,
-  margin,
   onSizeChange,
+  margin,
   onMarginChange,
   className = '',
   disabled = false,
@@ -69,24 +72,18 @@ export function SizeControl({
   return (
     <div className={`size-control-wrapper ${className}`.trim()}>
       {/* Size Slider */}
-      <div className="size-control-field">
+      <div className="size-control-group">
         <div className="size-control-header">
-          <label
-            className="size-control-label"
-            htmlFor="qr-size-slider"
-          >
+          <label className="size-control-label" htmlFor="size-slider">
             Size
           </label>
-          <span
-            className="size-control-value"
-            aria-live="polite"
-          >
+          <span className="size-control-value" data-testid="size-value" aria-live="polite">
             {size}px
           </span>
         </div>
-        <div className="size-control-slider-wrapper">
+        <div className="size-control-slider-container">
           <input
-            id="qr-size-slider"
+            id="size-slider"
             type="range"
             className="size-control-slider"
             min={SIZE_CONFIG.min}
@@ -95,38 +92,33 @@ export function SizeControl({
             value={size}
             onChange={handleSizeChange}
             disabled={disabled}
-            aria-label="QR code size in pixels"
+            aria-label="QR code size"
             aria-valuemin={SIZE_CONFIG.min}
             aria-valuemax={SIZE_CONFIG.max}
             aria-valuenow={size}
-            aria-valuetext={`${size} pixels`}
+            aria-valuetext={String(size)}
+            tabIndex={0}
           />
           <div className="size-control-range-labels">
-            <span>{SIZE_CONFIG.min}px</span>
-            <span>{SIZE_CONFIG.max}px</span>
+            <span className="size-control-range-label">{SIZE_CONFIG.min}</span>
+            <span className="size-control-range-label">{SIZE_CONFIG.max}</span>
           </div>
         </div>
       </div>
 
       {/* Margin Slider */}
-      <div className="size-control-field">
+      <div className="size-control-group">
         <div className="size-control-header">
-          <label
-            className="size-control-label"
-            htmlFor="qr-margin-slider"
-          >
+          <label className="size-control-label" htmlFor="margin-slider">
             Margin
           </label>
-          <span
-            className="size-control-value"
-            aria-live="polite"
-          >
+          <span className="size-control-value" data-testid="margin-value" aria-live="polite">
             {margin}
           </span>
         </div>
-        <div className="size-control-slider-wrapper">
+        <div className="size-control-slider-container">
           <input
-            id="qr-margin-slider"
+            id="margin-slider"
             type="range"
             className="size-control-slider"
             min={MARGIN_CONFIG.min}
@@ -139,16 +131,15 @@ export function SizeControl({
             aria-valuemin={MARGIN_CONFIG.min}
             aria-valuemax={MARGIN_CONFIG.max}
             aria-valuenow={margin}
-            aria-valuetext={`${margin} modules`}
+            aria-valuetext={String(margin)}
+            tabIndex={0}
           />
           <div className="size-control-range-labels">
-            <span>{MARGIN_CONFIG.min}</span>
-            <span>{MARGIN_CONFIG.max}</span>
+            <span className="size-control-range-label">{MARGIN_CONFIG.min}</span>
+            <span className="size-control-range-label">{MARGIN_CONFIG.max}</span>
           </div>
         </div>
       </div>
     </div>
   );
 }
-
-export { SIZE_CONFIG, MARGIN_CONFIG };
