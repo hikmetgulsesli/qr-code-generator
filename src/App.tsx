@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { Layout } from './components/Layout';
 import { TextInput } from './components/TextInput';
 import { ColorPicker } from './components/ColorPicker';
+import { SizeControl } from './components/SizeControl';
 import { QRDisplay } from './components/QRDisplay';
 import { DownloadButton } from './components/DownloadButton';
 import { useQRSettings } from './hooks/useQRSettings';
@@ -31,6 +32,8 @@ function App(): React.ReactElement {
     margin,
     setForegroundColor,
     setBackgroundColor,
+    setQrSize,
+    setMargin,
   } = useQRSettings();
 
   // Generate QR code when text or settings change
@@ -116,6 +119,18 @@ function App(): React.ReactElement {
             onChange={setBackgroundColor}
           />
         </div>
+      </section>
+
+      <section className="app-section" aria-labelledby="size-heading">
+        <h2 id="size-heading" className="app-section-title">
+          Size & Margin
+        </h2>
+        <SizeControl
+          size={qrSize}
+          margin={margin}
+          onSizeChange={setQrSize}
+          onMarginChange={setMargin}
+        />
       </section>
     </>
   );

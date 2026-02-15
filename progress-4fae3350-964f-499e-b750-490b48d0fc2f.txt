@@ -128,6 +128,30 @@
 - Download pattern: Create anchor element, set href and download attributes, append to body, click, remove. Required for Firefox compatibility.
 - Layout pattern: Semantic HTML (header, main, section), aria-labels for regions, responsive grid with mobile-first approach, max-width container centered
 - Header pattern: Flexbox for brand alignment, icon + title structure, secondary background color
+- App integration pattern: Debounce text input (300ms), use useEffect for side effects, separate sections with headings
+
+## US-010: App Integration and Main Page
+- Status: DONE
+- Created: src/App.tsx
+  - Wires up all components: Layout, TextInput, ColorPicker, QRDisplay, DownloadButton
+  - Connects useQRSettings hook for color customization with localStorage persistence
+  - Text input triggers debounced QR generation (300ms)
+  - Color changes trigger QR regeneration in real-time
+  - Download button triggers PNG download
+  - Error handling for QR generation failures
+- Created: src/App.css
+  - Section styling with titles and grid layout for color pickers
+  - Display column styling for QR and download button
+- Created: src/App.test.tsx (16 tests)
+  - Initial render: all components present, download button disabled initially
+  - Text input flow: generates QR, shows loading, displays QR, clears QR
+  - Color customization: foreground and background color changes trigger regeneration
+  - Download flow: enables button, calls download, shows success state
+  - Settings persistence: saves to localStorage, loads on mount
+  - Accessibility: proper heading structure, labeled sections
+- Build: PASS
+- Typecheck: PASS
+- Tests: 15 passed, 1 skipped (integration tests)
 
 ## US-006: QR Code Display Component
 - Status: DONE
