@@ -112,6 +112,32 @@
 - Typecheck: PASS
 - Tests: 151/151 passing
 
+## US-011: Size and Margin Controls
+- Status: DONE
+- Created: src/components/SizeControl.tsx
+  - SizeControl component with size, onSizeChange, margin, onMarginChange props
+  - Size slider: range 128-512, step 64, displays value in px
+  - Margin slider: range 0-4, step 1, displays value
+  - Real-time value display next to each slider
+  - Disabled state support
+  - Exports SIZE_CONFIG and MARGIN_CONFIG constants for reuse
+  - Uses design tokens for colors and typography
+- Created: src/components/SizeControl.css
+  - Styled with CSS custom properties from tokens.css
+  - Custom range slider styling with accent color thumb
+  - Hover and focus-visible states with glow effect
+  - Disabled state with muted colors
+  - Range labels showing min/max values
+- Created: src/components/SizeControl.test.tsx (28 tests)
+  - Render tests: labels, value display, className, aria attributes
+  - Slider tests: min/max/step attributes, onChange callbacks, value updates
+  - Configuration export tests: SIZE_CONFIG, MARGIN_CONFIG values
+  - Disabled state tests: sliders disabled, onChange not called
+  - Keyboard interaction tests: focus capability, keyboard input
+- Build: PASS
+- Typecheck: PASS
+- Tests: 227/227 passing (28 new tests added)
+
 ## Codebase Patterns
 - tsconfig uses erasableSyntaxOnly: true — cannot use `public readonly` in constructor params. Use class fields instead.
 - Types are in src/types/index.ts. Utilities in src/utils/index.ts.
@@ -129,6 +155,7 @@
 - Layout pattern: Semantic HTML (header, main, section), aria-labels for regions, responsive grid with mobile-first approach, max-width container centered
 - Header pattern: Flexbox for brand alignment, icon + title structure, secondary background color
 - App integration pattern: Debounce text input (300ms), use useEffect for side effects, separate sections with headings
+- Range slider pattern: Native input[type=range] with custom CSS styling, min/max/step attributes, aria-valuenow/aria-valuemin/aria-valuemax for accessibility, tabIndex=0 for keyboard focus, value display with data-testid for testing
 
 ## US-010: App Integration and Main Page
 - Status: DONE
