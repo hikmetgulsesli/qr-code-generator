@@ -66,6 +66,35 @@
 - Typecheck: PASS
 - Tests: 73/73 passing
 
+## US-005: Color Picker Components
+- Status: DONE
+- Created: src/components/ColorPicker.tsx
+  - ColorPicker component with value, onChange, label props
+  - Native color input with custom styled trigger button
+  - Color preview swatch showing current color
+  - Labels: Foreground and Background support
+  - 10 preset color buttons for quick selection (cyan, white, black, red, green, yellow, purple, blue, gray, pink)
+  - Checkmark icon on selected preset
+  - Keyboard accessible (Enter/Space on swatch)
+  - Disabled state support
+  - Uses design tokens for colors and typography
+- Created: src/components/ColorPicker.css
+  - Styled with CSS custom properties from tokens.css
+  - Dark theme styling matching project design
+  - Swatch with border and focus-visible ring
+  - Preset buttons with hover scale effect
+  - Selected state with accent border
+  - Checkmark with drop shadow for visibility
+- Created: src/components/ColorPicker.test.tsx (34 tests)
+  - Render tests: label, color value display, className, aria attributes
+  - Color change tests: native input onChange, value display update, swatch style
+  - Preset selection tests: onChange called, 6+ presets, checkmark visibility, selected class, aria-pressed
+  - Disabled state tests: buttons disabled, onChange not called, disabled classes
+  - Keyboard interaction tests: tabIndex, Enter/Space handlers
+- Build: PASS
+- Typecheck: PASS
+- Tests: 107/107 passing
+
 ## Codebase Patterns
 - tsconfig uses erasableSyntaxOnly: true — cannot use `public readonly` in constructor params. Use class fields instead.
 - Types are in src/types/index.ts. Utilities in src/utils/index.ts.
@@ -77,3 +106,5 @@
 - Custom hooks pattern: useState with initializer function for lazy loading from localStorage, useEffect for persistence, useCallback for setters.
 - Validation helpers should be pure functions for easier testing.
 - localStorage operations should be wrapped in try-catch and fail silently.
+- Component pattern: Separate .tsx and .css files, use CSS custom properties from tokens.css
+- Color picker pattern: Native input hidden, custom trigger button, preset grid with checkmark for selected
