@@ -257,3 +257,58 @@
 - Build: PASS
 - Typecheck: PASS
 - Tests: 168/168 passing
+
+## US-012: History Feature with localStorage
+- Status: DONE
+- Created: src/hooks/useQRHistory.ts
+  - useQRHistory hook with add, get, clear functions
+  - QRHistoryItem interface: id, text, foregroundColor, backgroundColor, size, margin, timestamp
+  - Stores up to MAX_HISTORY_ITEMS (10) items, newest first
+  - localStorage persistence with key 'qr-history'
+  - Robust validation when loading from localStorage (validates all fields and types)
+  - Graceful error handling for localStorage failures (silent fallback)
+  - generateId() helper for unique item IDs
+  - Exports MAX_HISTORY_ITEMS and HISTORY_STORAGE_KEY for testing
+- Created: src/hooks/useQRHistory.test.ts (20 tests)
+  - Initial state: empty default, loads from localStorage, handles invalid JSON, non-array, mixed data
+  - addToHistory: adds item, unique IDs, timestamps, stores all settings, prepends newest, persists
+  - Maximum limit: enforces MAX_HISTORY_ITEMS, removes oldest when exceeded, MAX is 10
+  - getHistory: returns current items, empty array when none
+  - clearHistory: removes all items, clears localStorage
+  - Error handling: getItem throwing, setItem throwing
+- Created: src/components/HistoryList.tsx
+  - HistoryList component with items, onRestore, onClear props
+  - Empty state with instructional message
+  - Item count display (singular/plural)
+  - Clear All button with Trash2 icon (only shown when items exist)
+  - Each item shows: color swatches, truncated text, relative timestamp, size
+  - Click item button to restore all settings
+  - Uses Lucide icons (Clock, Trash2)
+  - Accessible: aria-labels, role="list", button elements, time elements
+- Created: src/components/HistoryList.css
+  - Styled with CSS custom properties from tokens.css
+  - Dark theme matching project design
+  - Hover and focus-visible states on items and clear button
+  - Clear button with danger hover state
+  - Color swatches with borders
+  - Responsive text truncation
+- Created: src/components/HistoryList.test.tsx (18 tests)
+  - Empty state: message, CSS class, no clear button
+  - Rendering: all items, item count, singular/plural, timestamps, color swatches, size, truncation, className, list structure
+  - Restore: onClick, full item object passed, keyboard accessible
+  - Clear: button visible, onClick, keyboard accessible
+- Modified: src/App.tsx
+  - Integrated useQRHistory hook
+  - Auto-saves to history on successful QR generation (with duplicate detection via ref)
+  - handleRestore callback restores text + all settings from history item
+  - History section added to left column with HistoryList component
+- Build: PASS
+- Typecheck: PASS
+- Tests: 265/265 passing (38 new tests: 20 hook + 18 component)
+
+## Codebase Patterns (updated)
+- History hook pattern: useState with initializer for lazy localStorage load, useCallback for actions, save to localStorage inside setState updater
+- Duplicate detection pattern: useRef to track last value, compare before adding
+- Relative timestamp formatting: helper function with tiered thresholds (Just now, Xm, Xh, Xd, date)
+- Text truncation: pure helper function, keep component logic simple
+- History item restore: callback receives full item object, parent sets all state fields
