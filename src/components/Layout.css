@@ -1,0 +1,92 @@
+.layout {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--color-bg-primary);
+}
+
+/* Header */
+.layout-header {
+  background-color: var(--color-bg-secondary);
+  border-bottom: 1px solid var(--color-border-default);
+  padding: var(--space-4) var(--space-6);
+}
+
+.layout-header-content {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.layout-header-brand {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.layout-header-icon {
+  color: var(--color-accent-primary);
+  flex-shrink: 0;
+}
+
+.layout-header-title {
+  font-family: var(--font-display);
+  font-size: var(--text-xl);
+  font-weight: var(--font-bold);
+  color: var(--color-text-primary);
+  margin: 0;
+  line-height: var(--leading-tight);
+}
+
+/* Main content */
+.layout-main {
+  flex: 1;
+  padding: var(--space-6);
+}
+
+.layout-container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Grid layout - Mobile first (single column) */
+.layout-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-6);
+}
+
+/* Left column (input/controls) */
+.layout-left-column {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+}
+
+/* Right column (QR display) */
+.layout-right-column {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Desktop: Two column layout */
+@media (min-width: 768px) {
+  .layout-grid {
+    grid-template-columns: 60% 40%;
+    gap: var(--space-8);
+  }
+
+  .layout-main {
+    padding: var(--space-8);
+  }
+}
+
+/* Large screens */
+@media (min-width: 1024px) {
+  .layout-grid {
+    gap: var(--space-12);
+  }
+
+  .layout-main {
+    padding: var(--space-10);
+  }
+}

@@ -95,6 +95,23 @@
 - Typecheck: PASS
 - Tests: 107/107 passing
 
+## US-007: Download PNG Functionality
+- Status: DONE
+- Created: src/utils/downloadQR.ts
+  - downloadQRCode(dataUrl, filename?) function for triggering PNG downloads
+  - dataUrlToBlob(dataUrl) helper for advanced blob operations
+  - Default filename format: qr-code-YYYYMMDD-HHMMSS.png
+  - Input validation for data URL format
+  - Error handling for DOM operations
+- Created: src/utils/downloadQR.test.ts (15 tests)
+  - Download tests: href setting, custom filename, default filename format
+  - DOM operation tests: anchor creation, click trigger, append/remove from body
+  - Error handling tests: invalid data URL, DOM errors, non-Error exceptions
+  - Blob conversion tests: PNG/JPEG MIME type extraction, malformed URL handling
+- Build: PASS
+- Typecheck: PASS
+- Tests: 151/151 passing
+
 ## Codebase Patterns
 - tsconfig uses erasableSyntaxOnly: true — cannot use `public readonly` in constructor params. Use class fields instead.
 - Types are in src/types/index.ts. Utilities in src/utils/index.ts.
@@ -108,6 +125,9 @@
 - localStorage operations should be wrapped in try-catch and fail silently.
 - Component pattern: Separate .tsx and .css files, use CSS custom properties from tokens.css
 - Color picker pattern: Native input hidden, custom trigger button, preset grid with checkmark for selected
+- Download pattern: Create anchor element, set href and download attributes, append to body, click, remove. Required for Firefox compatibility.
+- Layout pattern: Semantic HTML (header, main, section), aria-labels for regions, responsive grid with mobile-first approach, max-width container centered
+- Header pattern: Flexbox for brand alignment, icon + title structure, secondary background color
 
 ## US-006: QR Code Display Component
 - Status: DONE
@@ -137,3 +157,52 @@
 - Build: PASS
 - Typecheck: PASS
 - Tests: 136/136 passing
+
+## US-008: Download Button Component
+- Status: DONE
+- Created: src/components/DownloadButton.tsx
+  - DownloadButton component with onClick, disabled, className, children props
+  - Primary button style with accent color
+  - Success feedback state (checkmark icon + "Downloaded!" text) after click
+  - Auto-resets success state after 2 seconds
+  - Keyboard accessible (Enter/Space)
+  - Uses design tokens for colors and typography
+- Created: src/components/DownloadButton.css
+  - Styled with CSS custom properties from tokens.css
+  - Hover and active states with transform effects
+  - Success state with green background
+  - Disabled state with muted colors
+- Created: src/components/DownloadButton.test.tsx (20 tests)
+  - Render tests: default text, custom children, icon, className, aria attributes
+  - Click behavior tests: onClick called, success state shown, timeout reset
+  - Disabled state tests: button disabled, onClick not called, CSS classes
+  - Keyboard interaction tests: Enter/Space handlers
+  - Success state behavior tests: no trigger while in success state
+- Build: PASS
+- Typecheck: PASS
+- Tests: 156/156 passing
+
+## US-009: Main Layout and App Shell
+- Status: DONE
+- Created: src/components/Layout.tsx
+  - Layout component with leftColumn, rightColumn, className props
+  - Header with app title "QR Code Generator" and QrCode icon from Lucide
+  - Two-column responsive grid layout
+  - Mobile: single column, stacked
+  - Desktop: input left (60%), display right (40%)
+  - Semantic HTML: header, main, section with aria-labels
+  - Dark theme applied by default using design tokens
+- Created: src/components/Layout.css
+  - Full viewport height layout with flex column
+  - Header with secondary background and border
+  - CSS Grid with responsive breakpoints (768px for desktop)
+  - Container max-width of 1200px centered
+  - Uses design tokens for all colors, spacing, typography
+- Created: src/components/Layout.test.tsx (12 tests)
+  - Render tests: component renders, header title, icon, columns, className
+  - Semantic structure tests: header, main, aria-labels
+  - Responsive behavior tests: grid container, column classes
+  - Dark theme tests: layout and header classes
+- Build: PASS
+- Typecheck: PASS
+- Tests: 168/168 passing
