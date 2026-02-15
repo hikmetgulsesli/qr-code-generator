@@ -19,11 +19,35 @@
 - Typecheck: PASS
 - Tests: 34/34 passing
 
+## US-003: Color Customization State Management
+- Status: DONE
+- Created: src/hooks/useQRSettings.ts
+  - useQRSettings hook for managing QR code customization state
+  - State: foregroundColor, backgroundColor, qrSize, margin
+  - localStorage persistence with key 'qr-settings'
+  - Default values: foreground #22d3ee, background #18181b, size 256, margin 2
+  - Validation for hex colors (3 and 6 char), size (64-1024), margin (0-10)
+  - Graceful error handling for localStorage failures
+  - Setter functions: setForegroundColor, setBackgroundColor, setQrSize, setMargin
+  - resetSettings function to restore defaults
+- Created: src/hooks/useQRSettings.test.ts (14 tests)
+  - Default values validation
+  - Validation helper tests (hex colors, size, margin)
+  - localStorage persistence tests (save, load, invalid JSON)
+  - localStorage error handling tests
+  - Shorthand hex color tests
+- Build: PASS
+- Typecheck: PASS
+- Tests: 48/48 passing
+
 ## Codebase Patterns
 - tsconfig uses erasableSyntaxOnly: true — cannot use `public readonly` in constructor params. Use class fields instead.
 - Types are in src/types/index.ts. Utilities in src/utils/index.ts.
 - Design tokens in src/styles/tokens.css (CSS custom properties).
-- Test files co-located with source: src/utils/qrGenerator.test.ts
+- Test files co-located with source: src/utils/qrGenerator.test.ts, src/hooks/useQRSettings.test.ts
 - vitest with happy-dom environment, globals: true
 - qrcode library: use QRCode.toDataURL(text, options) for browser data URLs. Width, margin, color.dark, color.light are the key options.
 - Custom error classes: extend Error, set this.name manually, use a separate field for cause (not constructor param shorthand).
+- Custom hooks pattern: useState with initializer function for lazy loading from localStorage, useEffect for persistence, useCallback for setters.
+- Validation helpers should be pure functions for easier testing.
+- localStorage operations should be wrapped in try-catch and fail silently.
