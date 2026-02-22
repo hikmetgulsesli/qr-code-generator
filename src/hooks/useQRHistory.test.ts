@@ -198,7 +198,7 @@ describe('useQRHistory', () => {
     });
 
     it('MAX_HISTORY_ITEMS is 10', () => {
-      expect(MAX_HISTORY_ITEMS).toBe(10);
+      expect(MAX_HISTORY_ITEMS).toBe(5);
     });
   });
 

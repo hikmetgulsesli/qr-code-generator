@@ -6,7 +6,7 @@
 import { useState, useCallback } from 'react';
 
 /** Maximum number of history items to keep */
-const MAX_HISTORY_ITEMS = 10;
+const MAX_HISTORY_ITEMS = 5;
 
 /** localStorage key for history persistence */
 const HISTORY_STORAGE_KEY = 'qr-history';

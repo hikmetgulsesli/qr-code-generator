@@ -66,6 +66,9 @@
 .layout-right-column {
   display: flex;
   flex-direction: column;
+  position: sticky;
+  top: var(--space-6);
+  align-self: start;
 }
 
 /* Desktop: Two column layout */
